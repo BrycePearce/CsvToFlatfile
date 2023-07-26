@@ -1,21 +1,23 @@
-import { readFile } from 'fs/promises';
-import { parse, stringify, transform } from 'csv/sync';
+import { parse } from 'csv/sync';
 
-import { createWorkbook } from './api/createWorkbook.js';
+// import { createWorkbook } from './api/createWorkbook.js';
 
 import type { ParseCsv } from './types/ParseCsv.js';
-
 
 export const parseCsv = ({ csv, hasColumnHeaders = false, columnHeaders, options = {
     escapeCharacter: '\\',
     ltrim: true,
     rtrim: true
 } }: ParseCsv) => {
+
     // columns true makes it a cool obj notation
     const parsedRecords: string[][] = parse(csv, { columns: false, relax_quotes: true, escape: options.escapeCharacter, ltrim: options.ltrim, rtrim: options.rtrim });
-    // console.log('parsedRecords', parsedRecords)
     const headers = getHeaders(parsedRecords, hasColumnHeaders, columnHeaders);
-    console.log('headers', headers)
+
+    if (headers?.length === 0) {
+        throw new Error('Invalid headers')
+    }
+
     // const refinedRecords = transform(rawRecords, (data: string[]) => {
     //     return data.map((value) => {
     //         // console.log('value', value)

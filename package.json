@@ -1,12 +1,13 @@
 {
   "name": "csvtoflatfile",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Converts a csv to a flatfile",
   "type": "module",
   "scripts": {
     "compile": "tsc",
-    "dev": "node --no-warnings=ExperimentalWarning --loader ts-node/esm src/demo/example.ts"
+    "dev": "node --no-warnings=ExperimentalWarning --loader ts-node/esm src/demo/example.ts",
+    "lint": "eslint src/**/*.ts",
+    "format": "eslint src/**/*.ts --fix"
   },
   "author": "",
   "license": "MIT",
@@ -17,5 +18,12 @@
     "got": "^13.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.8.0",
+    "prettier": "3.0.0"
   }
 }
