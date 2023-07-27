@@ -1,17 +1,16 @@
 import got from "got";
 import { flatfileRootUrl } from "../constants.js";
-import "dotenv/config.js"; // todo: remove
 
 const endpoints = {
     workbooks: `${flatfileRootUrl}/workbooks`
 }
 
-export const createWorkbook = async () => {
+export const createWorkbook = async (key: string) => {
     return await got.post(endpoints.workbooks, {
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
-            Authorization: `Bearer ${process.env.flatfile}`
+            Authorization: `Bearer ${key}`
         },
         json: {
             "name": "My First Workbook",
