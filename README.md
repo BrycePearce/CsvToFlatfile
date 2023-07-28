@@ -24,6 +24,8 @@ const { convertCsvToWorkbook } = require('csvtoflatfile')
 ## Basic Usage
 
 ```javascript
+const { convertCsvToWorkbook } = require('csvtoflatfile')
+
 const loadCsvWithHeaders = async () => {
     let importedCsv: string;
     try {
@@ -34,15 +36,19 @@ const loadCsvWithHeaders = async () => {
 
     if (!importedCsv) return null;
 
-    const parsedCsv = convertCsvToWorkbook({ csv: importedCsv, hasColumnHeaders: true, workbookName: 'Zillow', sheetName: 'coolSheet#1' })
-    console.log(parsedCsv)
+    // create a workbook
+    const workbook = convertCsvToWorkbook({ csv: importedCsv, hasColumnHeaders: true, workbookName: 'Zillow', sheetName: 'coolSheet#1' })
+    console.log(workbook)
 }
 ```
 
 ## Advanced Usage (every customization option)
 
 ```javascript
+const { convertCsvToWorkbook } = require('csvtoflatfile')
+
 const loadCsvWithReferenceAndEnum = async () => {
+    // load your csv
     let importedCsv: string;
     try {
         importedCsv = await readFile("./testData/nile.csv", 'utf8')
@@ -52,7 +58,8 @@ const loadCsvWithReferenceAndEnum = async () => {
 
     if (!importedCsv) return null;
 
-    const parsedCsv = convertCsvToWorkbook({
+    // get the Flatfile workbook with your specified options
+    const workbook = convertCsvToWorkbook({
         csv: importedCsv,
         hasColumnHeaders: true,
         workbookName: 'TestData',
@@ -85,7 +92,7 @@ const loadCsvWithReferenceAndEnum = async () => {
         }]
     });
 
-    return parsedCsv;
+    console.log(workbook);
 }
 
 ```
@@ -101,3 +108,5 @@ Here's our roadmap and the progress on each feature:
 2. **File Upload:** 🚧 Work In Progress.
 
 3. **Downloadable Files:** 🚧 Work In Progress.
+
+4. Automap integration https://flatfile.com/docs/plugins/automations/automap
