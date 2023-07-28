@@ -4,7 +4,7 @@ import { mapCsvToWorkbook } from './helpers/workbookBuilder.js';
 
 import type { ParseCsv } from './types/ParseCsv.js';
 
-export const parseCsv = async ({ csv, hasColumnHeaders = false, columnHeaders, flatfileKey, actions, fieldKeys, fieldTypes, slugName, sheetAccess, sheetName, workbookName, options = {
+export const convertCsvToWorkbook = async ({ csv, hasColumnHeaders = false, columnHeaders, flatfileKey, actions, fieldKeys, fieldTypes, slugName, sheetAccess, sheetName, workbookName, options = {
     escapeCharacter: '\\',
     ltrim: true,
     rtrim: true

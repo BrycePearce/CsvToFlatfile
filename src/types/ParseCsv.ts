@@ -35,30 +35,23 @@ export type FieldType =
 
 export type SheetAccessOptions = "add" | "edit" | "delete" | "import";
 
-export type ParseCsv = {
+type CommonCsvFields = {
     actions?: Action[];
-    columnHeaders?: never;
     csv: string;
     fieldKeys?: string[];
     fieldTypes?: FieldType[];
     flatfileKey: string;
-    hasColumnHeaders: true;
-    options?: CsvParseOptions
-    sheetAccess?: SheetAccessOptions[];
-    sheetName: string;
-    slugName?: string;
-    workbookName: string;
-} | {
-    actions?: Action[];
-    columnHeaders?: string[];
-    csv: string;
-    fieldKeys?: string[];
-    fieldTypes?: FieldType[];
-    flatfileKey: string;
-    hasColumnHeaders: false;
-    options?: CsvParseOptions
+    options?: CsvParseOptions;
     sheetAccess?: SheetAccessOptions[];
     sheetName: string;
     slugName?: string;
     workbookName: string;
 }
+
+export type ParseCsv = CommonCsvFields & ({
+    hasColumnHeaders: true;
+    columnHeaders?: never;
+} | {
+    hasColumnHeaders: false;
+    columnHeaders?: string[];
+});
