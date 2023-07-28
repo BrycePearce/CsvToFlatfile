@@ -2,6 +2,8 @@
 
 `CsvtoFlatfile` is a powerful and easy-to-use npm package that converts your CSV data to Flatfile workbook format. It supports all Flatfile customization options, making it a flexible solution for. Non-essential fields are automatically generated if they're not provided, simplifying the process even further.
 
+It serves as an auto-map alternative when you know exactly what you want your data to look like.
+
 ## Notes
 `csvtoflatfile` is written using ECMAScript modules (ESM).
 
