@@ -1,9 +1,11 @@
 import { Action, Field, FlatfileWorkbook, Sheet } from '../types/Flatfile.js';
 import { strToSlug, toCamelCaseNoSpecialChars } from './helpers.js';
 
-type CsvToWorkbookProps = { actions?: Action[], fieldKeys?: string[], fieldTypes?: string[], labels: string[], sheetName: string, records: string[][], slugName?: string, workbookName: string }
+import type { EnumConfig, FieldType, ReferenceConfig, SheetAccessOptions } from '../types/ParseCsv.js';
 
-export const mapCsvToWorkbook = ({ actions, fieldKeys, fieldTypes, labels, records, slugName, sheetName, workbookName }: CsvToWorkbookProps): FlatfileWorkbook => {
+type CsvToWorkbookProps = { actions?: Action[], fieldKeys?: string[], fieldTypes?: FieldType[], labels: string[], sheetName: string, records: string[][], slugName?: string, workbookName: string, sheetAccess?: SheetAccessOptions[] }
+
+export const mapCsvToWorkbook = ({ actions, fieldKeys, fieldTypes, labels, records, slugName, sheetName, workbookName, sheetAccess }: CsvToWorkbookProps): FlatfileWorkbook => {
     // load record types, in case the user did not provide them
     const recordTypes = records[0].map((record) => typeof record); // todo: need to convert these to flatfile compatible types
 
@@ -14,11 +16,12 @@ export const mapCsvToWorkbook = ({ actions, fieldKeys, fieldTypes, labels, recor
     const sheet: Sheet = {
         name: sheetName,
         slug,
+        ...(sheetAccess && { access: sheetAccess }),
         fields: mapLabelsToFields(labels, recordTypes, fieldKeys, fieldTypes)
     }
 
     // generate actions
-    const defaultAction: Action = { "operation": "submitAction", "mode": "foreground", "label": "Submit", "description": "Submit data to webhook.site", "primary": true }
+    const defaultAction: Action = { description: "Submit data to webhook.site", label: "Submit", mode: "foreground", operation: "submitAction", primary: true }
     const userActions = actions ? actions : [defaultAction];
 
     return {
@@ -29,16 +32,21 @@ export const mapCsvToWorkbook = ({ actions, fieldKeys, fieldTypes, labels, recor
 };
 
 
-const mapLabelsToFields = (labels: string[], recordTypes: string[], fieldKeys?: string[], fieldTypes?: string[]): Field[] => (
+const mapLabelsToFields = (labels: string[], recordTypes: string[], fieldKeys?: string[], fieldTypes?: FieldType[]): Field[] => (
     labels.map((label, labelIndex) => {
         const fieldLabel = label;
         const fieldKey = fieldKeys ? fieldKeys[labelIndex] : toCamelCaseNoSpecialChars(fieldLabel);
-        const fieldType = fieldTypes ? fieldTypes[labelIndex] : recordTypes[labelIndex];
+        const fieldType = fieldTypes ? fieldTypes[labelIndex].type : recordTypes[labelIndex];
+
+        // handle configuration objects
+        const hasConfigObj = fieldTypes && (fieldTypes[labelIndex].type === 'reference' || fieldTypes[labelIndex].type === 'enum'); // only enum and reference currently support config objects
+        const labelConfig = hasConfigObj ? (fieldTypes[labelIndex] as { config: ReferenceConfig | EnumConfig }).config : null;
 
         return {
             key: fieldKey,
             type: fieldType,
-            label: fieldLabel
+            label: fieldLabel,
+            ...(labelConfig && { config: labelConfig })
         }
     })
 );

@@ -4,7 +4,7 @@ import { mapCsvToWorkbook } from './helpers/workbookBuilder.js';
 
 import type { ParseCsv } from './types/ParseCsv.js';
 
-export const parseCsv = async ({ csv, hasColumnHeaders = false, columnHeaders, flatfileKey, actions, fieldKeys, fieldTypes, slugName, sheetName, workbookName, options = {
+export const parseCsv = async ({ csv, hasColumnHeaders = false, columnHeaders, flatfileKey, actions, fieldKeys, fieldTypes, slugName, sheetAccess, sheetName, workbookName, options = {
     escapeCharacter: '\\',
     ltrim: true,
     rtrim: true
@@ -18,7 +18,7 @@ export const parseCsv = async ({ csv, hasColumnHeaders = false, columnHeaders, f
         throw new Error('Invalid headers')
     }
 
-    const workbook = mapCsvToWorkbook({ workbookName: workbookName, records: formattedRecords, labels: headers, actions, fieldKeys, fieldTypes, slugName, sheetName })
+    const workbook = mapCsvToWorkbook({ workbookName: workbookName, records: formattedRecords, labels: headers, actions, fieldKeys, fieldTypes, slugName, sheetName, sheetAccess })
     console.log('workbook', JSON.stringify(workbook))
 
     try {
