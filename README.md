@@ -99,9 +99,7 @@ const loadCsvWithReferenceAndEnum = async () => {
 
 ## Roadmap
 
-The `csvtoflatfile` project is currently under active development, and while it already offers robust functionality, we're working on adding more features to further enhance its capabilities.
-
-Here's our roadmap and the progress on each feature:
+The `csvtoflatfile` project is currently under active development. Here's some of things being worked on
 
 1. **CSV to Workbook Conversion:** ✔️ Complete!
 
