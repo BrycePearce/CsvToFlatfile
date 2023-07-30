@@ -1,1 +1,1 @@
-export const flatfileRootUrl = 'https://api.x.flatfile.com/v1/';
+export const flatfileRootUrl = 'https://api.x.flatfile.com/v1';

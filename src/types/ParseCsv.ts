@@ -2,9 +2,9 @@
 import type { Action } from "./Flatfile.js";
 
 export type CsvParseOptions = {
+    escapeCharacter?: string; // escape character processed by csv parse
     ltrim?: boolean; // trim left side of csv field
     rtrim?: boolean; // trim right side of csv field
-    escapeCharacter?: string; // escape character processed by csv parse
 }
 
 export type EnumOption = {
@@ -21,8 +21,8 @@ export type EnumConfig = {
 }
 
 export type ReferenceConfig = {
-    ref: string; // The full path reference to another Sheet/table configuration. Must be in the same Workbook.
     key: string;
+    ref: string; // The full path reference to another Sheet/table configuration. Must be in the same Workbook.
     relationship: "has-one"; // flatfile only supports has-one
 }
 
@@ -40,18 +40,19 @@ type CommonCsvFields = {
     csv: string;
     fieldKeys?: string[];
     fieldTypes?: FieldType[];
-    flatfileKey: string;
     options?: CsvParseOptions;
     sheetAccess?: SheetAccessOptions[];
     sheetName: string;
     slugName?: string;
+    workbookEnvironmentId?: string,
     workbookName: string;
+    workbookSpaceId?: string,
 }
 
 export type ParseCsv = CommonCsvFields & ({
-    hasColumnHeaders: true;
     columnHeaders?: never;
+    hasColumnHeaders: true;
 } | {
-    hasColumnHeaders: false;
     columnHeaders?: string[];
+    hasColumnHeaders: false;
 });

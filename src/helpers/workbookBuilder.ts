@@ -1,11 +1,11 @@
-import { Action, Field, FlatfileWorkbook, Sheet } from '../types/Flatfile.js';
 import { strToSlug, toCamelCaseNoSpecialChars } from './helpers.js';
 
+import type { Action, Field, FlatfileWorkbook, Sheet } from '../types/Flatfile.js';
 import type { EnumConfig, FieldType, ReferenceConfig, SheetAccessOptions } from '../types/ParseCsv.js';
 
-type CsvToWorkbookProps = { actions?: Action[], fieldKeys?: string[], fieldTypes?: FieldType[], labels: string[], sheetName: string, records: string[][], slugName?: string, workbookName: string, sheetAccess?: SheetAccessOptions[] }
+type CsvToWorkbookProps = { actions?: Action[], fieldKeys?: string[], fieldTypes?: FieldType[], labels: string[], sheetName: string, records: string[][], slugName?: string, workbookName: string, sheetAccess?: SheetAccessOptions[], workbookEnvironmentId?: string, workbookSpaceId?: string, }
 
-export const mapCsvToWorkbook = ({ actions, fieldKeys, fieldTypes, labels, records, slugName, sheetName, workbookName, sheetAccess }: CsvToWorkbookProps): FlatfileWorkbook => {
+export const mapCsvToWorkbook = ({ actions, fieldKeys, fieldTypes, labels, records, slugName, sheetName, workbookName, sheetAccess, workbookEnvironmentId, workbookSpaceId, }: CsvToWorkbookProps): FlatfileWorkbook => {
     // load record types, in case the user did not provide them
     const recordTypes = records[0].map((record) => typeof record); // todo: need to convert these to flatfile compatible types
 
@@ -16,6 +16,8 @@ export const mapCsvToWorkbook = ({ actions, fieldKeys, fieldTypes, labels, recor
     const sheet: Sheet = {
         name: sheetName,
         slug,
+        ...(workbookEnvironmentId && { workbookEnvironmentId }),
+        ...(workbookSpaceId && { workbookSpaceId }),
         ...(sheetAccess && { access: sheetAccess }),
         fields: mapLabelsToFields(labels, recordTypes, fieldKeys, fieldTypes)
     }
