@@ -1,9 +1,13 @@
 # CsvtoFlatfile
 
-`CsvtoFlatfile` is a powerful and easy-to-use npm package that converts your CSV data to Flatfile workbook format. It supports all Flatfile customization options, making it a flexible solution for. Non-essential fields are automatically generated if they're not provided, simplifying the process even further.
+`CsvtoFlatfile` is an easy way to convert your CSV data to Flatfile workbook format.
+
+It serves as an auto-map alternative when you know exactly what you want your data to look like.
 
 ## Notes
 `csvtoflatfile` is written using ECMAScript modules (ESM).
+
+ Non-essential fields are automatically generated if not provided.
 
 ## Installation
 
@@ -24,6 +28,8 @@ const { convertCsvToWorkbook } = require('csvtoflatfile')
 ## Basic Usage
 
 ```javascript
+const { convertCsvToWorkbook } = require('csvtoflatfile')
+
 const loadCsvWithHeaders = async () => {
     let importedCsv: string;
     try {
@@ -34,15 +40,19 @@ const loadCsvWithHeaders = async () => {
 
     if (!importedCsv) return null;
 
-    const parsedCsv = convertCsvToWorkbook({ csv: importedCsv, hasColumnHeaders: true, workbookName: 'Zillow', sheetName: 'coolSheet#1' })
-    console.log(parsedCsv)
+    // create a workbook
+    const workbook = convertCsvToWorkbook({ csv: importedCsv, hasColumnHeaders: true, workbookName: 'Zillow', sheetName: 'coolSheet#1' })
+    console.log(workbook)
 }
 ```
 
 ## Advanced Usage (every customization option)
 
 ```javascript
+const { convertCsvToWorkbook } = require('csvtoflatfile')
+
 const loadCsvWithReferenceAndEnum = async () => {
+    // load your csv
     let importedCsv: string;
     try {
         importedCsv = await readFile("./testData/nile.csv", 'utf8')
@@ -52,7 +62,8 @@ const loadCsvWithReferenceAndEnum = async () => {
 
     if (!importedCsv) return null;
 
-    const parsedCsv = convertCsvToWorkbook({
+    // get the Flatfile workbook with your specified options
+    const workbook = convertCsvToWorkbook({
         csv: importedCsv,
         hasColumnHeaders: true,
         workbookName: 'TestData',
@@ -85,19 +96,19 @@ const loadCsvWithReferenceAndEnum = async () => {
         }]
     });
 
-    return parsedCsv;
+    console.log(workbook);
 }
 
 ```
 
 ## Roadmap
 
-The `csvtoflatfile` project is currently under active development, and while it already offers robust functionality, we're working on adding more features to further enhance its capabilities.
-
-Here's our roadmap and the progress on each feature:
+The `csvtoflatfile` project is currently under active development. Here's some of things being worked on
 
 1. **CSV to Workbook Conversion:** ✔️ Complete!
 
 2. **File Upload:** 🚧 Work In Progress.
 
 3. **Downloadable Files:** 🚧 Work In Progress.
+
+4. Automap integration https://flatfile.com/docs/plugins/automations/automap
