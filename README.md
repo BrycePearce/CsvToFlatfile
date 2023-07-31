@@ -29,19 +29,21 @@ const { convertCsvToWorkbook } = require('csvtoflatfile')
 
 ```javascript
 import { readFile } from "fs/promises";
-const { convertCsvToWorkbook } = require('csvtoflatfile')
+import { convertCsvToWorkbook } from 'csvtoflatfile';
 
 const loadCsvWithHeaders = async () => {
     let importedCsv: string = await readFile("./mydata.csv", 'utf8');
 
     // create a workbook
-    const workbook = convertCsvToWorkbook({
+    const { workbook, recordData } = convertCsvToWorkbook({
       csv: importedCsv, // your csv file
       hasColumnHeaders: true, // whether or not your csv data includes headers
       workbookName: 'Zillow', // the name of your newly created workbook
       sheetName: 'coolSheet#1' // the sheet name for your data
     });
-    console.log(workbook)
+
+    // create the Flatfile
+    const flatfile = await createFlatfile({ workbook, recordData, flatfileApiKey: process.env.yourKey });
 }
 ```
 
