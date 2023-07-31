@@ -38,7 +38,7 @@ const loadCsvWithHeaders = async () => {
       csv: importedCsv, // your csv file
       hasColumnHeaders: true, // whether or not your csv data includes headers
       workbookName: 'Zillow', // the name of your newly created workbook
-      sheetName: 'coolSheet#1' // 
+      sheetName: 'coolSheet#1' // the sheet name for your data
     });
     console.log(workbook)
 }
