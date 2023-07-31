@@ -31,7 +31,7 @@ const { convertCsvToWorkbook } = require('csvtoflatfile')
 import { readFile } from "fs/promises";
 import { convertCsvToWorkbook } from 'csvtoflatfile';
 
-const loadCsvWithHeaders = async () => {
+const generateFlatfile = async () => {
     let importedCsv: string = await readFile("./mydata.csv", 'utf8');
 
     // create a workbook
@@ -44,6 +44,8 @@ const loadCsvWithHeaders = async () => {
 
     // create the Flatfile
     const flatfile = await createFlatfile({ workbook, recordData, flatfileApiKey: process.env.yourKey });
+
+   return flatfile; // Flatfile contains the flatfile and record creation response
 }
 ```
 
