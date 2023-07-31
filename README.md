@@ -2,10 +2,10 @@
 
 `CsvtoFlatfile` is an easy way to convert your CSV data to Flatfile workbook format.
 
-It serves as an auto-map alternative when you know exactly what you want your data to look like.
+It serves as an [auto-map](https://flatfile.com/docs/plugins/automations/automap) alternative when you know exactly what you want your data to look like.
 
 ## Notes
-`csvtoflatfile` is written using ECMAScript modules (ESM).
+`csvtoflatfile` is a ECMAScript modules (ESM) library.
 
  Non-essential fields are automatically generated if not provided.
 
@@ -31,75 +31,22 @@ const { convertCsvToWorkbook } = require('csvtoflatfile')
 const { convertCsvToWorkbook } = require('csvtoflatfile')
 
 const loadCsvWithHeaders = async () => {
-    let importedCsv: string;
-    try {
-        importedCsv = await readFile("./testData/zillow.csv", 'utf8')
-    } catch {
-        throw new Error('Failed to load the CSV file.');
-    }
-
-    if (!importedCsv) return null;
+    let importedCsv: string = await readFile("./mydata.csv", 'utf8');
 
     // create a workbook
-    const workbook = convertCsvToWorkbook({ csv: importedCsv, hasColumnHeaders: true, workbookName: 'Zillow', sheetName: 'coolSheet#1' })
+    const workbook = convertCsvToWorkbook({
+      csv: importedCsv, // your csv file
+      hasColumnHeaders: true, // whether or not your csv data includes headers
+      workbookName: 'Zillow', // the name of your newly created workbook
+      sheetName: 'coolSheet#1' // 
+    });
     console.log(workbook)
 }
 ```
 
-## Advanced Usage (every customization option)
+## Advanced Usage
 
-```javascript
-const { convertCsvToWorkbook } = require('csvtoflatfile')
-
-const loadCsvWithReferenceAndEnum = async () => {
-    // load your csv
-    let importedCsv: string;
-    try {
-        importedCsv = await readFile("./testData/nile.csv", 'utf8')
-    } catch {
-        throw new Error('Failed to load the CSV file.');
-    }
-
-    if (!importedCsv) return null;
-
-    // get the Flatfile workbook with your specified options
-    const workbook = convertCsvToWorkbook({
-        csv: importedCsv,
-        hasColumnHeaders: true,
-        workbookName: 'TestData',
-        sheetName: 'Nile with a reference and enum field type',
-        sheetAccess: ["add", "edit", "delete", "import"],
-        fieldTypes: [{
-            type: "reference",
-            config: {
-                ref: "parents",
-                key: "email",
-                relationship: "has-one"
-            }
-        }, {
-            type: "enum",
-            config: {
-                allow_custom: false,
-                options: [{
-                    value: "active",
-                    label: "Active"
-                }, {
-                    value: "inactive",
-                    label: "Disabled",
-                    color: "#ff0000",
-                    icon: "fa fa-ban",
-                    metadata: {
-                        foo: "bar"
-                    }
-                }]
-            }
-        }]
-    });
-
-    console.log(workbook);
-}
-
-```
+🚧 Demo code coming soon. See demo/example.ts for more advanced usage.
 
 ## Roadmap
 
@@ -107,8 +54,10 @@ The `csvtoflatfile` project is currently under active development. Here's some o
 
 1. **CSV to Workbook Conversion:** ✔️ Complete!
 
-2. **File Upload:** 🚧 Work In Progress.
+2. **File Upload / Record insertion:** ✔️ Complete!
 
-3. **Downloadable Files:** 🚧 Work In Progress.
+3. **Downloadable Workbook:** 🚧 Work In Progress.
 
-4. Automap integration https://flatfile.com/docs/plugins/automations/automap
+4. **Edit workbook:** 🚧 Work In Progress.
+
+5. Automap integration https://flatfile.com/docs/plugins/automations/automap
