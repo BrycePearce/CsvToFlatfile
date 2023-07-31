@@ -1,4 +1,7 @@
 // Converts a string to camel case, removing spaces and special characters.
+
+import type { FormattedRecordData } from "../types/Flatfile.js";
+
 // "Input": "Hello 2 World" "Output: "hello2World"
 export function toCamelCaseNoSpecialChars(str: string) {
     return str
@@ -28,3 +31,9 @@ export const strToSlug = (str: string) => (str
     // Remove any leading and trailing hyphens
     .replace(/^-+|-+$/g, '')
 );
+
+export const formatCsvToPublicRecord = (csvData: string[][], headers: string[]): FormattedRecordData[][] => {
+    return csvData.map((csvValueList) => {
+        return csvValueList.map((value, index) => ({ header: headers[index], value }))
+    });
+}

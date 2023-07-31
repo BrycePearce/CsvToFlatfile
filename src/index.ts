@@ -2,9 +2,10 @@ import { parse } from 'csv/sync';
 import { createWorkbook, insertRecordsIntoSheet } from './api/createWorkbook.js';
 import { mapCsvToWorkbook } from './helpers/workbookBuilder.js';
 import { mapWorkbookToRecords } from './helpers/recordBuilder.js';
+import { formatCsvToPublicRecord } from './helpers/helpers.js';
 
 import type { ParseCsv } from './types/ParseCsv.js';
-import type { FlatfileWorkbook, InputMessage } from './types/Flatfile.js';
+import type { FlatfileWorkbook, FormattedRecordData } from './types/Flatfile.js';
 
 export const convertCsvToWorkbook = ({ actions, columnHeaders, csv, fieldKeys, workbookEnvironmentId, workbookSpaceId, fieldTypes, sheetAccess, sheetName, slugName, workbookName, hasColumnHeaders = false, options = {
     escapeCharacter: '\\',
@@ -13,27 +14,28 @@ export const convertCsvToWorkbook = ({ actions, columnHeaders, csv, fieldKeys, w
 } }: ParseCsv) => {
     const rawRecords: string[][] = parse(csv, { columns: false, relax_quotes: true, escape: options.escapeCharacter, ltrim: options.ltrim, rtrim: options.rtrim });
     const headers = getHeaders(rawRecords, hasColumnHeaders, columnHeaders);
-    const formattedRecords = hasColumnHeaders ? rawRecords.slice(1) : rawRecords;
+    const formattedRecords = formatCsvToPublicRecord(hasColumnHeaders ? rawRecords.slice(1) : rawRecords, headers);
 
     if (headers?.length === 0) {
         throw new Error('Invalid headers')
     }
 
-    const workbook = mapCsvToWorkbook({ workbookName: workbookName, records: formattedRecords, labels: headers, actions, fieldKeys, fieldTypes, slugName, sheetName, sheetAccess, workbookEnvironmentId, workbookSpaceId, });
+    const workbook = mapCsvToWorkbook({ workbookName: workbookName, records: rawRecords, labels: headers, actions, fieldKeys, fieldTypes, slugName, sheetName, sheetAccess, workbookEnvironmentId, workbookSpaceId, });
     return { workbook, recordData: formattedRecords };
 }
 
-export const createFlatfile = async ({ workbook, recordData, flatfileApiKey, messages }: { workbook: FlatfileWorkbook, recordData: string[][], flatfileApiKey: string, messages?: InputMessage[] }) => {
+export const createFlatfile = async ({ workbook, recordData, flatfileApiKey, }: { workbook: FlatfileWorkbook, recordData: FormattedRecordData[][], flatfileApiKey: string }) => {
     // create the workbook
     const workbookResponse = await createWorkbook(workbook, flatfileApiKey);
     const sheetId = workbookResponse.data.sheets[0].id;
 
-    // create records from csv data, then add them to the workbook sheet
-    const records = mapWorkbookToRecords(workbook, recordData, messages);
-    console.log('records', JSON.stringify(records.slice(0, 5)))
-    // insertRecordsIntoSheet(sheetId, records, flatfileApiKey);
+    // map the custom record type to the type expected by the api
+    const records = mapWorkbookToRecords(workbook, recordData);
 
-    return workbookResponse
+    // call the api to add the records
+    const recordInsertionResponse = await insertRecordsIntoSheet(sheetId, records, flatfileApiKey);
+
+    return { workbookResponse, recordsResponse: recordInsertionResponse };
 }
 
 // todo: Create a method here that accepts a "FlatfileWorkbook" and invokes the creation api

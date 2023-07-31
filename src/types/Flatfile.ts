@@ -25,13 +25,17 @@ export type FlatfileWorkbook = {
     actions: Action[];
 };
 
- // for internal use, to map the message to the key
-export type InputMessage = {
-    key: string; // intneral key for mapping
+export type FormattedRecordData = {
+    value: string;
+    messages?: Message[];
+    [key: string]: any; // we'll append any other values here into the record as well. An example might be "createdAt" or "updatedAt"
+}
+
+
+export type Message = {
     type: string; // the type of message displayed. Must be "info" | "error" | "warn"
     message: string; // This is an informational message about the 'year' field.
 }
-export type Message = Omit<InputMessage, 'key'>
 
 export type Record = {
     [key: string]: RecordData
@@ -39,7 +43,6 @@ export type Record = {
 
 export type RecordData = {
     messages?: Message[];
-    updatedAt: string;
     value: string;
 }
 
