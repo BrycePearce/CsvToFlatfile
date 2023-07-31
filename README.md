@@ -1,6 +1,6 @@
 # CsvtoFlatfile
 
-`CsvtoFlatfile` is an easy way to convert your CSV data to Flatfile workbook format.
+`CsvtoFlatfile` is an easy way to convert your CSV data to Flatfile workbook format. It fully supports all available customization options allowing you full control over your data.
 
 It serves as an [auto-map](https://flatfile.com/docs/plugins/automations/automap) alternative when you know exactly what you want your data to look like.
 
