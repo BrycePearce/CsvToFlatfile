@@ -32,7 +32,7 @@ import { readFile } from "fs/promises";
 import { convertCsvToWorkbook } from 'csvtoflatfile';
 
 const generateFlatfile = async () => {
-    let importedCsv: string = await readFile("./mydata.csv", 'utf8');
+    const importedCsv: string = await readFile("./mydata.csv", 'utf8');
 
     // create a workbook
     const { workbook, recordData } = convertCsvToWorkbook({
