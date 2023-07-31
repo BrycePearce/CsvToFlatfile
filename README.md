@@ -29,7 +29,7 @@ const { convertCsvToWorkbook } = require('csvtoflatfile')
 
 ```javascript
 import { readFile } from "fs/promises";
-import { convertCsvToWorkbook } from 'csvtoflatfile';
+import { convertCsvToWorkbook, createFlatfile } from 'csvtoflatfile';
 
 const generateFlatfile = async () => {
     const importedCsv: string = await readFile("./mydata.csv", 'utf8');
