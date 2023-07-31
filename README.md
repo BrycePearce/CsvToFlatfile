@@ -42,7 +42,8 @@ const generateFlatfile = async () => {
       sheetName: 'The Nile through time' // the sheet name for your data
     });
 
-    // optionally, modify/customize your data, any Flatfile supported record keys are supported. In this case we'll add a warning message when the number of floods exceeds 11.
+    // optionally, modify/customize your data, any Flatfile supported record keys are supported.
+    // In this case we'll add a warning message when the number of floods exceeds 11.
     const modifiedRecordData = recordData.map((parsedWeatherData) => {
         return parsedWeatherData.map((weatherData) => {
             // add a warning when floods exceed 11
