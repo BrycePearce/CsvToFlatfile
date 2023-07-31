@@ -28,6 +28,7 @@ const { convertCsvToWorkbook } = require('csvtoflatfile')
 ## Basic Usage
 
 ```javascript
+import { readFile } from "fs/promises";
 const { convertCsvToWorkbook } = require('csvtoflatfile')
 
 const loadCsvWithHeaders = async () => {
