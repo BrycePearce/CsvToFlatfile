@@ -38,16 +38,35 @@ const generateFlatfile = async () => {
     const { workbook, recordData } = convertCsvToWorkbook({
       csv: importedCsv, // your csv file
       hasColumnHeaders: true, // whether or not your csv data includes headers
-      workbookName: 'Zillow', // the name of your newly created workbook
-      sheetName: 'coolSheet#1' // the sheet name for your data
+      workbookName: 'TestData', // the name of your newly created workbook
+      sheetName: 'The Nile through time' // the sheet name for your data
+    });
+
+    // optionally, modify your data. In the case we'll add a warning message for years that have over 10 floods.
+    const modifiedRecordData = recordData.map((parsedWeatherData) => {
+        return parsedWeatherData.map((weatherData) => {
+            // add a warning when floods exceed 11
+            if (Number(weatherData.value) > 11 && weatherData.header === 'Flood') return {
+                ...weatherData, messages: [{
+                    type: "warn",
+                    message: "That's a lot of flooding!"
+                }]
+            }
+            return { ...weatherData, updatedAt: new Date().toISOString() }; // you can also insert custom record data fields here that will be inserted into the flatile!
+        });
     });
 
     // create the Flatfile
-    const flatfile = await createFlatfile({ workbook, recordData, flatfileApiKey: process.env.yourKey });
+    const flatfile = await createFlatfile({ workbook, recordData: modifiedRecordData, flatfileApiKey: process.env.yourKey });
 
    return flatfile; // Flatfile contains the flatfile and record creation response
 }
 ```
+
+### Result 
+
+![image](https://github.com/BrycePearce/CsvToFlatfile/assets/16729071/9d7a62ef-33b9-4795-8b96-6a9a7fdca50b)
+
 
 ## Advanced Usage
 
