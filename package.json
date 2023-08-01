@@ -1,9 +1,11 @@
 {
   "name": "csvtoflatfile",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Converts a csv to a flatfile",
   "type": "module",
-  "types": "./dist/types/index.d.ts",
+  "types": "./@types/index.d.ts",
+  "sideEffects": false,
+  "main": "./dist/index.js",
   "scripts": {
     "compile": "tsc",
     "dev": "node --no-warnings=ExperimentalWarning --loader ts-node/esm src/demo/example.ts",
@@ -15,6 +17,14 @@
       "import": "./dist/index.js"
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BrycePearce/KyuuBot.git"
+  },
+  "keywords": [
+    "flatfile",
+    "csv"
+  ],
   "files": [
     "dist/*",
     "dist/types/*.d.ts"
