@@ -27,7 +27,7 @@
   ],
   "files": [
     "dist/*",
-    "dist/types/*.d.ts"
+    "@types/*"
   ],
   "author": "Bryce Pearce",
   "license": "MIT",
