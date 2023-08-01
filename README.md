@@ -81,10 +81,8 @@ The `csvtoflatfile` project is currently under active development. Here's some o
 
 2. **File Upload / Record insertion:** ✔️ Complete!
 
-3. **Downloadable Workbook:** 🚧 Work In Progress.
+3. **Add multiple sheets on initial Flatfile creation** 🚧 Work In Progress.
 
-4. **Add multiple sheets on initial Flatfile creation** 🚧 Work In Progress.
+4. **Append new sheets to existing Flatfiles** 🚧 Work In Progress.
 
-5. **Append new sheets to existing Flatfiles** 🚧 Work In Progress.
-
-6. Automap integration https://flatfile.com/docs/plugins/automations/automap
+5. Automap integration https://flatfile.com/docs/plugins/automations/automap

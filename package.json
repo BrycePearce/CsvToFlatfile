@@ -3,13 +3,22 @@
   "version": "1.0.0",
   "description": "Converts a csv to a flatfile",
   "type": "module",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "compile": "tsc",
     "dev": "node --no-warnings=ExperimentalWarning --loader ts-node/esm src/demo/example.ts",
     "lint": "eslint src/**/*.ts",
     "format": "eslint src/**/*.ts --fix"
   },
-  "author": "",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/*"
+  ],
+  "author": "Bryce Pearce",
   "license": "MIT",
   "dependencies": {
     "csv": "^6.3.1",

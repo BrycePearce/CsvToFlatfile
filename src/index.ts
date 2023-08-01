@@ -7,7 +7,7 @@ import { formatCsvToPublicRecord } from './helpers/helpers.js';
 import type { ParseCsv } from './types/ParseCsv.js';
 import type { FlatfileWorkbook, FormattedRecordData } from './types/Flatfile.js';
 
-export const convertCsvToWorkbook = ({ actions, columnHeaders, csv, fieldKeys, workbookEnvironmentId, workbookSpaceId, fieldTypes, sheetAccess, sheetName, slugName, workbookName, hasColumnHeaders = false, options = {
+const convertCsvToWorkbook = ({ actions, columnHeaders, csv, fieldKeys, workbookEnvironmentId, workbookSpaceId, fieldTypes, sheetAccess, sheetName, slugName, workbookName, hasColumnHeaders = false, options = {
     escapeCharacter: '\\',
     ltrim: true,
     rtrim: true
@@ -24,7 +24,7 @@ export const convertCsvToWorkbook = ({ actions, columnHeaders, csv, fieldKeys, w
     return { workbook, recordData: formattedRecords };
 }
 
-export const createFlatfile = async ({ workbook, recordData, flatfileApiKey, }: { workbook: FlatfileWorkbook, recordData: FormattedRecordData[][], flatfileApiKey: string }) => {
+const createFlatfile = async ({ workbook, recordData, flatfileApiKey, }: { workbook: FlatfileWorkbook, recordData: FormattedRecordData[][], flatfileApiKey: string }) => {
     // create the workbook
     const workbookResponse = await createWorkbook(workbook, flatfileApiKey);
     const sheetId = workbookResponse.data.sheets[0].id;
@@ -48,3 +48,5 @@ const getHeaders = (parsedRecords: string[][], hasColumnHeaders: boolean, column
     // otherwise, generate some default headers
     return parsedRecords[0].map((_, i) => (i + 1).toString());
 }
+
+export { convertCsvToWorkbook, createFlatfile };
