@@ -1,9 +1,9 @@
 {
   "name": "csvtoflatfile",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Converts a csv to a flatfile",
   "type": "module",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "compile": "tsc",
     "dev": "node --no-warnings=ExperimentalWarning --loader ts-node/esm src/demo/example.ts",

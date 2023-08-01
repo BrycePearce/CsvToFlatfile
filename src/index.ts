@@ -49,4 +49,4 @@ const getHeaders = (parsedRecords: string[][], hasColumnHeaders: boolean, column
     return parsedRecords[0].map((_, i) => (i + 1).toString());
 }
 
-export { convertCsvToWorkbook, createFlatfile };
+export default { convertCsvToWorkbook, createFlatfile };
