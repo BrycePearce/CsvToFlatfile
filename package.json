@@ -1,6 +1,6 @@
 {
   "name": "csvtoflatfile",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Converts a csv to a flatfile",
   "type": "module",
   "types": "./dist/types/index.d.ts",
