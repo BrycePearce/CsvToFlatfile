@@ -1,5 +1,5 @@
 import type { FlatfileWorkbook, FormattedRecordData, InsertRecordResponse, WorkbookResponse } from './Flatfile.ts';
-export {
+export type {
     FlatfileWorkbook,
     FormattedRecordData,
     WorkbookResponse,
