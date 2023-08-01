@@ -1,8 +1,9 @@
 {
   "extends": "./tsconfig.node20.json",
   "compilerOptions": {
+    "declaration": true,
     "module": "esnext",
-    "outDir": "./dist",
+    "outDir": "./dist"
   },
   "include": ["./src/**/*"]
 }
