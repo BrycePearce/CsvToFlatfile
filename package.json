@@ -22,7 +22,8 @@
   },
   "keywords": [
     "flatfile",
-    "csv"
+    "csv",
+    "csvtoflatfile"
   ],
   "files": [
     "dist/*",
