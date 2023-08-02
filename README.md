@@ -48,7 +48,8 @@ const generateFlatfile = async () => {
     const modifiedRecordData = recordData.map((parsedWeatherData) => {
         return parsedWeatherData.map((weatherData) => {
             // add a warning when floods exceed 11
-            if (Number(weatherData.value) > 11 && weatherData.header === 'Flood') return {
+            const floodsExceedsEleven = (Number(weatherData.value) > 11 && weatherData.header === 'Flood';
+            if (floodsExceedsEleven) return {
                 ...weatherData, messages: [{
                     type: "warn",
                     message: "That's a lot of flooding!"
