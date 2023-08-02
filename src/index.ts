@@ -1,8 +1,10 @@
-import { parse } from 'csv/sync';
 import { createWorkbook, insertRecordsIntoSheet } from './api/createWorkbook.js';
-import { mapCsvToWorkbook } from './helpers/workbookBuilder.js';
 import { mapWorkbookToRecords } from './helpers/recordBuilder.js';
+import { mapCsvToWorkbook } from './helpers/workbookBuilder.js';
 import { formatCsvToPublicRecord } from './helpers/helpers.js';
+import { isValidParameters } from './helpers/validators.js';
+import { CsvParseError } from './classes/CsvParseError.js';
+import { parse } from 'csv/sync';
 
 import type { ParseCsv } from './types/ParseCsv.js';
 import type { FlatfileWorkbook, FormattedRecordData } from './types/Flatfile.js';
@@ -16,8 +18,9 @@ export const convertCsvToWorkbook = ({ actions, columnHeaders, csv, fieldKeys, w
     const headers = getHeaders(rawRecords, hasColumnHeaders, columnHeaders);
     const formattedRecords = formatCsvToPublicRecord(hasColumnHeaders ? rawRecords.slice(1) : rawRecords, headers);
 
-    if (headers?.length === 0) {
-        throw new Error('Invalid headers')
+    const validationObj = isValidParameters({ records: formattedRecords, fieldKeys, fieldTypes, headers });
+    if (validationObj.hasError) {
+        throw new CsvParseError(validationObj.message);
     }
 
     const workbook = mapCsvToWorkbook({ workbookName: workbookName, records: rawRecords, labels: headers, actions, fieldKeys, fieldTypes, slugName, sheetName, sheetAccess, workbookEnvironmentId, workbookSpaceId, });
