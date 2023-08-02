@@ -1,5 +1,3 @@
-// Converts a string to camel case, removing spaces and special characters.
-
 import type { FormattedRecordData } from "../types/Flatfile.js";
 
 // "Input": "Hello 2 World" "Output: "hello2World"

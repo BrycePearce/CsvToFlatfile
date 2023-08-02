@@ -1,7 +1,7 @@
 {
   "name": "csvtoflatfile",
-  "version": "1.0.17",
-  "description": "Converts a csv to a flatfile",
+  "version": "2.0.0",
+  "description": "Converts a csv to a Flatfile",
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.js",
@@ -32,7 +32,6 @@
   "license": "MIT",
   "dependencies": {
     "csv": "^6.3.1",
-    "dotenv": "^16.3.1",
     "got": "^13.0.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
