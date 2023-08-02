@@ -5,7 +5,7 @@ import { mapWorkbookToRecords } from './helpers/recordBuilder.js';
 import { formatCsvToPublicRecord } from './helpers/helpers.js';
 
 import type { ParseCsv } from './types/ParseCsv.js';
-import type { CreateFlatfile } from '../@types/index.js';
+import type { FlatfileWorkbook, FormattedRecordData } from './types/Flatfile.js';
 
 export const convertCsvToWorkbook = ({ actions, columnHeaders, csv, fieldKeys, workbookEnvironmentId, workbookSpaceId, fieldTypes, sheetAccess, sheetName, slugName, workbookName, hasColumnHeaders = false, options = {
     escapeCharacter: '\\',
@@ -24,7 +24,7 @@ export const convertCsvToWorkbook = ({ actions, columnHeaders, csv, fieldKeys, w
     return { workbook, recordData: formattedRecords };
 }
 
-export const createFlatfile = async ({ workbook, recordData, flatfileApiKey, }: CreateFlatfile) => {
+export const createFlatfile = async ({ workbook, recordData, flatfileApiKey, }: { workbook: FlatfileWorkbook, recordData: FormattedRecordData[][], flatfileApiKey: string }) => {
     // create the workbook
     const workbookResponse = await createWorkbook(workbook, flatfileApiKey);
     const sheetId = workbookResponse.data.sheets[0].id;
