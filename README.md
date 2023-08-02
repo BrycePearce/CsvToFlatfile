@@ -1,5 +1,3 @@
-🚧 Warning! This package is still under construction, check back soon! 🚧 
-
 # CsvtoFlatfile
 
 `CsvtoFlatfile` is a fast an easy way to convert your csv into a Flatfile. It fully supports all available customization options allowing you full control over your data.
@@ -7,9 +5,9 @@
 It serves as an [auto-map](https://flatfile.com/docs/plugins/automations/automap) alternative when you know exactly what you want your data to look like.
 
 ## Notes
-`csvtoflatfile` is a ECMAScript modules (ESM) library.
+- `csvtoflatfile` is a Node.js ECMAScript modules (ESM) library.
 
- Non-essential fields are automatically generated if not provided.
+- Non-essential fields are automatically generated if not provided.
 
 ## Installation
 
@@ -24,7 +22,8 @@ npm install csvtoflatfile
 2. **Import the package**
 
 ```javascript
-const { convertCsvToWorkbook } = require('csvtoflatfile')
+import { convertCsvToWorkbook, createFlatfile } from 'csvtoflatfile'; // or import csvtoflatfile from 'csvtoflatfile';
+
 ```
 
 ## Basic Usage
@@ -77,7 +76,7 @@ const generateFlatfile = async () => {
 
 ## Roadmap
 
-The `csvtoflatfile` project is currently under active development. Here's some of things being worked on
+The `csvtoflatfile` project is currently under active development, but the core functionality has been added (#1 & #2). Here's the current roadmap:
 
 1. **CSV to Workbook Conversion:** ✔️ Complete!
 
