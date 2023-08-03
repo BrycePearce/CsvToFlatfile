@@ -23,7 +23,7 @@ export const convertCsvToWorkbook = ({ actions, columnHeaders, csv, fieldKeys, w
         throw new CsvParseError(validationObj.message);
     }
 
-    const workbook = mapCsvToWorkbook({ workbookName: workbookName, records: rawRecords, labels: headers, actions, fieldKeys, fieldTypes, slugName, sheetName, sheetAccess, workbookEnvironmentId, workbookSpaceId, });
+    const workbook = mapCsvToWorkbook({ workbookName: workbookName, formattedRecords, labels: headers, actions, fieldKeys, fieldTypes, slugName, sheetName, sheetAccess, workbookEnvironmentId, workbookSpaceId, });
     return { workbook, recordData: formattedRecords };
 }
 
