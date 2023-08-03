@@ -4,6 +4,12 @@
 
 It serves as an [auto-map](https://flatfile.com/docs/plugins/automations/automap) alternative when you know exactly what you want your data to look like.
 
+<!-- [![Coverage Status](https://codecov.io/gh/sindresorhus/got/branch/main/graph/badge.svg)](https://codecov.io/gh/sindresorhus/got/branch/main) -->
+[![Downloads](https://img.shields.io/npm/dm/csvtoflatfile.svg)](https://npmjs.com/csvtoflatfile)
+	<a href="https://www.npmjs.com/package/csvtoflatfile"><img src="https://img.shields.io/npm/v/csvtoflatfile" alt="npm"></a>
+
+
+
 ## Notes
 - `csvtoflatfile` is a Node.js ECMAScript modules (ESM) library.
 
