@@ -41,9 +41,6 @@ export const createFlatfile = async ({ workbook, recordData, flatfileApiKey, }: 
     return { workbookResponse, recordsResponse: recordInsertionResponse };
 }
 
-// todo: Create a method here that accepts a "FlatfileWorkbook" and invokes the creation api
-// then it should populate the flatfile via the api methods from the data given 
-
 const getHeaders = (parsedRecords: string[][], hasColumnHeaders: boolean, columnHeaders?: string[]) => {
     if (columnHeaders) return columnHeaders;
     if (hasColumnHeaders) return parsedRecords[0];

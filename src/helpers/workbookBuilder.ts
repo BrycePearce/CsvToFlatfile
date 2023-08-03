@@ -3,12 +3,9 @@ import { strToSlug, toCamelCaseNoSpecialChars } from './helpers.js';
 import type { Action, Field, FlatfileWorkbook, Sheet } from '../types/Flatfile.js';
 import type { EnumConfig, FieldType, ReferenceConfig, SheetAccessOptions } from '../types/ParseCsv.js';
 
-type CsvToWorkbookProps = { actions?: Action[], fieldKeys?: string[], fieldTypes?: FieldType[], labels: string[], sheetName: string, records: string[][], slugName?: string, workbookName: string, sheetAccess?: SheetAccessOptions[], workbookEnvironmentId?: string, workbookSpaceId?: string, }
+type CsvToWorkbookProps = { actions?: Action[], fieldKeys?: string[], fieldTypes?: FieldType[], labels: string[], sheetName: string, records: string[][], slugName?: string, workbookName: string, sheetAccess?: SheetAccessOptions[], workbookEnvironmentId?: string, workbookSpaceId?: string }
 
 export const mapCsvToWorkbook = ({ actions, fieldKeys, fieldTypes, labels, records, slugName, sheetName, workbookName, sheetAccess, workbookEnvironmentId, workbookSpaceId, }: CsvToWorkbookProps): FlatfileWorkbook => {
-    // load record types, in case the user did not provide them
-    const recordTypes = records[0].map((record) => typeof record); // todo: need to convert these to flatfile compatible types
-
     // generate a slugName if they user did not provide one
     const slug = slugName ? slugName : strToSlug(sheetName)
 
@@ -19,7 +16,7 @@ export const mapCsvToWorkbook = ({ actions, fieldKeys, fieldTypes, labels, recor
         ...(workbookEnvironmentId && { workbookEnvironmentId }),
         ...(workbookSpaceId && { workbookSpaceId }),
         ...(sheetAccess && { access: sheetAccess }),
-        fields: mapLabelsToFields(labels, recordTypes, fieldKeys, fieldTypes)
+        fields: mapLabelsToFields(labels, records, fieldKeys, fieldTypes)
     }
 
     // generate actions
@@ -33,9 +30,41 @@ export const mapCsvToWorkbook = ({ actions, fieldKeys, fieldTypes, labels, recor
     }
 };
 
+const getRecordType = (str: string) => {
+    // The function checks if the string is a boolean
+    const isBoolean = (str: string) => {
+        return str === 'true' || str === 'false';
+    }
 
-const mapLabelsToFields = (labels: string[], recordTypes: string[], fieldKeys?: string[], fieldTypes?: FieldType[]): Field[] => (
-    labels.map((label, labelIndex) => {
+    // The function checks if the string is a number
+    const isNumber = (str: string) => {
+        return !isNaN(Number(str));
+    }
+
+    // The function checks if the string is a valid date in the format of 'YYYY-MM-DD'
+    const isDateYYYYMMDD = (str: string) => {
+        const regex = /^\d{4}-\d{2}-\d{2}$/;
+        return regex.test(str);
+    }
+
+    if (isBoolean(str)) {
+        return 'boolean';
+    } else if (isNumber(str)) {
+        return 'number';
+    } else if (isDateYYYYMMDD(str)) {
+        return 'date';
+    } else {
+        return 'string';
+    }
+}
+
+
+
+const mapLabelsToFields = (labels: string[], records: string[][], fieldKeys?: string[], fieldTypes?: FieldType[]): Field[] => {
+    // load record types, in case the user did not provide them. Supported types are "string" | "number" | "boolean" | "date"
+    const recordTypes = records[0].map((record) => getRecordType(record)); // todo: this could probably be better than basing it off the first record, could find the first non null value for that record
+
+    return labels.map((label, labelIndex) => {
         const fieldLabel = label;
         const fieldKey = fieldKeys ? fieldKeys[labelIndex] : toCamelCaseNoSpecialChars(fieldLabel);
         const fieldType = fieldTypes ? fieldTypes[labelIndex].type : recordTypes[labelIndex];
@@ -51,4 +80,4 @@ const mapLabelsToFields = (labels: string[], recordTypes: string[], fieldKeys?: 
             ...(labelConfig && { config: labelConfig })
         }
     })
-);
+};
