@@ -9,7 +9,7 @@ import { parse } from 'csv/sync';
 import type { ParseMultiCsv } from './types/ParseCsv.js';
 import type { FlatfileWorkbook, FormattedRecordData, InsertRecordResponse, Sheet } from './types/Flatfile.js';
 
-export const convertMultiCsvToWorkbook = (sheetsData: ParseMultiCsv) => {
+export const convertCsvToWorkbook = (sheetsData: ParseMultiCsv) => {
     const { actions, workbookName, workbookSpaceId, csvConfigs } = sheetsData;
 
     const { sheets, formattedRecords } = csvConfigs.reduce((accumulator, sheetData) => {
@@ -41,26 +41,6 @@ export const convertMultiCsvToWorkbook = (sheetsData: ParseMultiCsv) => {
 
     return { workbook, recordData: formattedRecords };
 }
-
-// export const convertCsvToWorkbook = ({ actions, columnHeaders, csv, fieldKeys, workbookEnvironmentId, workbookSpaceId, fieldTypes, sheetAccess, sheetName, slugName, workbookName, hasColumnHeaders = false, options = {
-//     escapeCharacter: '\\',
-//     ltrim: true,
-//     rtrim: true
-// } }: ParseCsv) => {
-// const rawRecords: string[][] = parse(csv, { columns: false, relax_quotes: true, escape: options.escapeCharacter, ltrim: options.ltrim, rtrim: options.rtrim });
-// const headers = getHeaders(rawRecords, hasColumnHeaders, columnHeaders);
-// const formattedRecords = formatCsvToPublicRecord(hasColumnHeaders ? rawRecords.slice(1) : rawRecords, headers);
-
-// const validationObj = isValidParameters({ records: formattedRecords, fieldKeys, fieldTypes, headers });
-// if (validationObj.hasError) {
-//     throw new CsvParseError(validationObj.message);
-// }
-
-// const workbook = mapCsvToWorkbook({ actions, fieldKeys, fieldTypes, formattedRecords, labels: headers, sheetAccess, sheetName, slugName, workbookName: workbookName, workbookEnvironmentId, workbookSpaceId });
-// workbook.sheets = [getSheet({ fieldKeys, fieldTypes, formattedRecords, labels: headers, sheetAccess, sheetName, slugName, workbookEnvironmentId, workbookName, workbookSpaceId })];
-
-// return { workbook, recordData: formattedRecords };
-// }
 
 export const createFlatfile = async ({ workbook, recordDataList, flatfileApiKey, }: { workbook: FlatfileWorkbook, recordDataList: FormattedRecordData[][][], flatfileApiKey: string }) => {
     // create the workbook
@@ -97,7 +77,6 @@ const getHeaders = (parsedRecords: string[][], hasColumnHeaders: boolean, column
 }
 
 export default {
-    // convertCsvToWorkbook,
-    convertMultiCsvToWorkbook,
-    createFlatfile
+    createFlatfile,
+    convertCsvToWorkbook
 }
