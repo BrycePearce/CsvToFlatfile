@@ -69,7 +69,9 @@ const generateFlatfile = async () => {
     });
 
     // create the Flatfile
-    const flatfile = await createFlatfile({ workbook, recordDataList: [modifiedRecordData], flatfileApiKey: process.env?.flatfile ?? '' });
+    const flatfile = await createFlatfile({ workbook,
+      recordDataList: [modifiedRecordData], flatfileApiKey: process.env?.flatfile ?? ''
+    });
     return flatfile; // Flatfile contains the flatfile and record creation response
 }
 ```
@@ -97,7 +99,11 @@ const generateFlatfile = async () => {
         ]
     });
 
-    const flatfile = await createFlatfile({ workbook: data.workbook, recordDataList: data.recordData, flatfileApiKey: process.env?.flatfile ?? '' });
+    const flatfile = await createFlatfile({
+      workbook: data.workbook,
+      recordDataList: data.recordData,
+      flatfileApiKey: process.env?.flatfile ?? ''
+    });
     return flatfile;
 }
 ```
