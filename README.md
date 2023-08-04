@@ -91,7 +91,11 @@ const generateFlatfile = async () => {
     const data = convertCsvToWorkbook({
         workbookName: "Workbook",
         workbookSpaceId: "space1",
-        csvConfigs: [{ csv: zillowData, hasColumnHeaders: true, sheetName: 'Zillow' }, { csv: nileData, hasColumnHeaders: true, sheetName: 'Niles' }, { csv: treeData, hasColumnHeaders: true, sheetName: 'Trees' }]
+        csvConfigs: [
+          { csv: zillowData, hasColumnHeaders: true, sheetName: 'Zillow' },
+          { csv: nileData, hasColumnHeaders: true, sheetName: 'The Nile' },
+          { csv: treeData, hasColumnHeaders: true, sheetName: 'Trees' }
+        ]
     });
 
     const flatfile = await createFlatfile({ workbook: data.workbook, recordDataList: data.recordData, flatfileApiKey: process.env?.flatfile ?? '' });
