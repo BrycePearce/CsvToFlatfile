@@ -29,7 +29,6 @@ npm install csvtoflatfile
 
 ```javascript
 import { convertCsvToWorkbook, createFlatfile } from 'csvtoflatfile'; // or import csvtoflatfile from 'csvtoflatfile';
-
 ```
 
 ## Basic Usage
