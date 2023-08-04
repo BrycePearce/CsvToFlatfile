@@ -39,19 +39,21 @@ import { readFile } from "fs/promises";
 import { convertCsvToWorkbook, createFlatfile } from 'csvtoflatfile';
 
 const generateFlatfile = async () => {
-    const importedCsv: string = await readFile("./mydata.csv", 'utf8');
+    const importedCsv: string = await readFile("./yourData.csv", 'utf8');
 
     // create a workbook
     const { workbook, recordData } = convertCsvToWorkbook({
-      csv: importedCsv, // your csv file
-      hasColumnHeaders: true, // whether or not your csv data includes headers
-      workbookName: 'TestData', // the name of your newly created workbook
-      sheetName: 'The Nile through time' // the sheet name for your data
-    });
+      workbookName: "Zillow", // the name of your newly created workbook
+      csvConfigs: [{
+        csv: importedCsv, // your csv file
+        hasColumnHeaders: true, // whether or not your csv data includes headers
+        sheetName: 'Cool Sheet #1' // the sheet name for your data
+      }]
 
     // optionally, modify/customize your data. Any Flatfile supported record keys are supported.
     // In this case we'll add a warning message when the number of floods exceeds 11.
-    const modifiedRecordData = recordData.map((parsedWeatherData) => {
+    const zillowRecords = recordData[0];
+    const modifiedRecordData = zillowRecords.map((parsedWeatherData) => {
         return parsedWeatherData.map((weatherData) => {
             // add a warning when floods exceed 11
             const floodsExceedsEleven = (Number(weatherData.value) > 11 && weatherData.header === 'Flood';
@@ -66,7 +68,7 @@ const generateFlatfile = async () => {
     });
 
     // create the Flatfile
-    const flatfile = await createFlatfile({ workbook, recordData: modifiedRecordData, flatfileApiKey: process.env.yourKey });
+    const flatfile = await createFlatfile({ workbook, recordDataList: [modifiedRecordData], flatfileApiKey: process.env?.flatfile ?? '' });
 
    return flatfile; // Flatfile contains the flatfile and record creation response
 }
@@ -89,7 +91,7 @@ The `csvtoflatfile` project is currently under active development, but the core 
 
 2. **File Upload / Record insertion:** ✔️ Complete!
 
-3. **Add multiple sheets on initial Flatfile creation** 🚧 Work In Progress.
+3. **Add multiple sheets on initial Flatfile creation** ✔️ Complete!
 
 4. **Append new sheets to existing Flatfiles** 🚧 Work In Progress.
 
