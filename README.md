@@ -104,7 +104,8 @@ const generateFlatfile = async () => {
 
 ### Result 
 
-![image](https://github.com/BrycePearce/CsvToFlatfile/assets/16729071/76301584-d7e0-4057-841d-15da1bd125da)
+![image](https://github.com/BrycePearce/CsvToFlatfile/assets/16729071/885343d4-28a0-40ab-99e0-0888437e83fe)
+
 
 ## Advanced Usage
 
