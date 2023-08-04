@@ -26,8 +26,6 @@ export type ReferenceConfig = {
     relationship: "has-one"; // flatfile only supports has-one
 }
 
-// todo: enum and reference are going to take some additional implementation
-// you will have to append "config" key to the field element on the workbook. See docs. Not that hard, have user provide it
 export type FieldType =
     | { type: "string" | "number" | "boolean" | "date" } // note: Date fields interpret incoming dates with Month (MM) preceding the Day (DD) in all formats.
     | { type: "enum"; config: EnumConfig }
@@ -46,7 +44,7 @@ type CommonCsvFields = {
     slugName?: string;
     workbookEnvironmentId?: string,
     workbookName: string;
-    workbookSpaceId?: string,
+    workbookSpaceId?: string
 }
 
 export type ParseCsv = CommonCsvFields & ({
@@ -56,3 +54,21 @@ export type ParseCsv = CommonCsvFields & ({
     columnHeaders?: string[];
     hasColumnHeaders: false;
 });
+
+// excludes top level fields
+export type CsvConfigWithoutWorkbookAndActions = Omit<CommonCsvFields, 'workbookName' | 'workbookSpaceId' | 'actions'> & (
+    {
+        columnHeaders?: never;
+        hasColumnHeaders: true;
+    } | {
+        columnHeaders?: string[];
+        hasColumnHeaders: false;
+    }
+);
+
+export type ParseMultiCsv = {
+    workbookName: string;
+    workbookSpaceId?: string;
+    actions?: Action[];
+    csvConfigs: CsvConfigWithoutWorkbookAndActions[];
+};

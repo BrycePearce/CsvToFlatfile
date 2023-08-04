@@ -1,7 +1,7 @@
 import type { FlatfileWorkbook, Record, FormattedRecordData } from "../types/Flatfile.js";
 
-export const mapWorkbookToRecords = (workbook: FlatfileWorkbook, formattedRecords: FormattedRecordData[][]): Record[] => {
-    const headerKeys = workbook.sheets[0].fields.map((field) => field.key);
+export const mapWorkbookToRecords = (workbook: FlatfileWorkbook, sheetIndex: number, formattedRecords: FormattedRecordData[][]): Record[] => {
+    const headerKeys = workbook.sheets[sheetIndex].fields.map((field) => field.key);
 
     const records: Record[] = formattedRecords.map((formattedRecordSet) => {
         return formattedRecordSet.reduce((accumulator, formattedRecord, index) => {

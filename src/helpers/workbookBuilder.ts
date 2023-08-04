@@ -5,30 +5,34 @@ import type { EnumConfig, FieldType, ReferenceConfig, SheetAccessOptions } from 
 
 type CsvToWorkbookProps = { actions?: Action[], fieldKeys?: string[], fieldTypes?: FieldType[], labels: string[], sheetName: string, formattedRecords: FormattedRecordData[][], slugName?: string, workbookName: string, sheetAccess?: SheetAccessOptions[], workbookEnvironmentId?: string, workbookSpaceId?: string }
 
-export const mapCsvToWorkbook = ({ actions, fieldKeys, fieldTypes, labels, formattedRecords, slugName, sheetName, workbookName, sheetAccess, workbookEnvironmentId, workbookSpaceId, }: CsvToWorkbookProps): FlatfileWorkbook => {
-    // generate a slugName if they user did not provide one
-    const slug = slugName ? slugName : strToSlug(sheetName)
-
-    // generate sheet
-    const sheet: Sheet = {
-        name: sheetName,
-        slug,
-        ...(workbookEnvironmentId && { workbookEnvironmentId }),
-        ...(workbookSpaceId && { workbookSpaceId }),
-        ...(sheetAccess && { access: sheetAccess }),
-        fields: mapLabelsToFields(labels, formattedRecords, fieldKeys, fieldTypes)
-    }
-
+export const mapCsvToWorkbook = ({ actions, workbookName }: { actions?: Action[], workbookName: string }): FlatfileWorkbook => {
     // generate actions
     const defaultAction: Action = { description: "Submit data to webhook.site", label: "Submit", mode: "foreground", operation: "submitAction", primary: true }
     const userActions = actions ? actions : [defaultAction];
 
     return {
         name: workbookName,
-        sheets: [sheet],
+        sheets: [],
         actions: userActions
     }
-};
+}
+
+export const getSheet = (props: CsvToWorkbookProps) => {
+    // generate a slugName if they user did not provide one
+    const slug = props.slugName ? props.slugName : strToSlug(props.sheetName)
+
+    // generate sheet
+    const sheet: Sheet = {
+        name: props.sheetName,
+        slug,
+        ...(props.workbookEnvironmentId && { workbookEnvironmentId: props.workbookEnvironmentId }),
+        ...(props.workbookSpaceId && { workbookSpaceId: props.workbookSpaceId }),
+        ...(props.sheetAccess && { access: props.sheetAccess }),
+        fields: mapLabelsToFields(props.labels, props.formattedRecords, props.fieldKeys, props.fieldTypes)
+    }
+
+    return sheet;
+}
 
 const mapLabelsToFields = (labels: string[], formattedRecords: FormattedRecordData[][], fieldKeys?: string[], fieldTypes?: FieldType[]): Field[] => {
     // load record types, in case the user did not provide them. Supported types are "string" | "number" | "boolean" | "date"
@@ -50,7 +54,7 @@ const mapLabelsToFields = (labels: string[], formattedRecords: FormattedRecordDa
             ...(labelConfig && { config: labelConfig })
         }
     })
-};
+}
 
 const getRecordType = (str: string) => {
     // The function checks if the string is a boolean
