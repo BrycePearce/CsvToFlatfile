@@ -71,8 +71,7 @@ const generateFlatfile = async () => {
 
     // create the Flatfile
     const flatfile = await createFlatfile({ workbook, recordDataList: [modifiedRecordData], flatfileApiKey: process.env?.flatfile ?? '' });
-
-   return flatfile; // Flatfile contains the flatfile and record creation response
+    return flatfile; // Flatfile contains the flatfile and record creation response
 }
 ```
 
@@ -80,6 +79,29 @@ const generateFlatfile = async () => {
 
 ![image](https://github.com/BrycePearce/CsvToFlatfile/assets/16729071/9d7a62ef-33b9-4795-8b96-6a9a7fdca50b)
 
+
+## Multiple Files
+
+```javascript
+const generateFlatfile = async () => {
+    const zillowData = await readFile("./testData/zillow.csv", 'utf8');;
+    const nileData = await readFile("./testData/nile.csv", 'utf8');
+    const treeData = await readFile("./testData/trees.csv", 'utf8');
+
+    const data = convertCsvToWorkbook({
+        workbookName: "Workbook",
+        workbookSpaceId: "space1",
+        csvConfigs: [{ csv: zillowData, hasColumnHeaders: true, sheetName: 'Zillow' }, { csv: nileData, hasColumnHeaders: true, sheetName: 'Niles' }, { csv: treeData, hasColumnHeaders: true, sheetName: 'Trees' }]
+    });
+
+    const flatfile = await createFlatfile({ workbook: data.workbook, recordDataList: data.recordData, flatfileApiKey: process.env?.flatfile ?? '' });
+    return flatfile;
+}
+```
+
+### Result 
+
+![image](https://github.com/BrycePearce/CsvToFlatfile/assets/16729071/76301584-d7e0-4057-841d-15da1bd125da)
 
 ## Advanced Usage
 
