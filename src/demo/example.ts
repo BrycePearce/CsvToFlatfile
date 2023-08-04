@@ -26,11 +26,15 @@ const loadMultipleCsvsWithHeaders = async () => {
     const zillowData = await readFile("./testData/zillow.csv", 'utf8');;
     const nileData = await readFile("./testData/nile.csv", 'utf8');
     const treeData = await readFile("./testData/trees.csv", 'utf8');
-    
+
     const data = convertCsvToWorkbook({
         workbookName: "Workbook",
         workbookSpaceId: "space1",
-        csvConfigs: [{ csv: zillowData, hasColumnHeaders: true, sheetName: 'Zillow' }, { csv: nileData, hasColumnHeaders: true, sheetName: 'The Nile' }, { csv: treeData, hasColumnHeaders: true, sheetName: 'Trees' }]
+        csvConfigs: [
+            { csv: nileData, hasColumnHeaders: true, sheetName: 'The Nile' },
+            { csv: treeData, hasColumnHeaders: true, sheetName: 'Trees' },
+            { csv: zillowData, hasColumnHeaders: true, sheetName: 'Zillow' }
+        ]
     });
 
     const flatfile = await createFlatfile({ workbook: data.workbook, recordDataList: data.recordData, flatfileApiKey: process.env?.flatfile ?? '' });
