@@ -49,6 +49,8 @@ const generateFlatfile = async () => {
         hasColumnHeaders: true, // whether or not your csv data includes headers
         sheetName: 'Cool Sheet #1' // the sheet name for your data
       }]
+    });
+
 
     // optionally, modify/customize your data. Any Flatfile supported record keys are supported.
     // In this case we'll add a warning message when the number of floods exceeds 11.
